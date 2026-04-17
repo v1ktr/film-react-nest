@@ -9,8 +9,6 @@ export interface AppConfig {
 export interface AppConfigDatabase {
   driver: string;
   url: string;
-  username: string;
-  password: string;
 }
 
 @Injectable()
@@ -24,33 +22,13 @@ export class configProvider {
     );
     const url = this.configService.get<string>(
       'DATABASE_URL',
-      'postgres://localhost:5432/prac',
+      'postgres://prac:prac@localhost:5432/prac',
     );
-    const username = this.configService.get<string>(
-      'DATABASE_USERNAME',
-      'prac',
-    );
-    const password = this.configService.get<string>(
-      'DATABASE_PASSWORD',
-      'prac',
-    );
-
-    let finalUrl = url;
-
-    if (url && !url.includes('@')) {
-      const protocolEnd = url.indexOf('://') + 3;
-      finalUrl =
-        url.slice(0, protocolEnd) +
-        `${username}:${password}@` +
-        url.slice(protocolEnd);
-    }
 
     return {
       database: {
         driver,
-        url: finalUrl,
-        username,
-        password,
+        url: url,
       },
       port: this.configService.get<number>('PORT', 3000),
     };

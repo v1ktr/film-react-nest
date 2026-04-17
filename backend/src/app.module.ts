@@ -25,23 +25,14 @@ import { OrderModule } from './order/order.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const username = configService.get<string>('DATABASE_USERNAME');
-        const password = configService.get<string>('DATABASE_PASSWORD');
-        const url = configService.get<string>('DATABASE_URL');
-
-        let finalUrl = url;
-
-        if (url && !url.includes('@')) {
-          const protocolEnd = url.indexOf('://') + 3;
-          finalUrl =
-            url.slice(0, protocolEnd) +
-            `${username}:${password}@` +
-            url.slice(protocolEnd);
-        }
+        const url = configService.get<string>(
+          'DATABASE_URL',
+          'postgres://prac:prac@localhost:5432/prac',
+        );
 
         return {
           type: 'postgres',
-          url: finalUrl,
+          url: url,
           entities: [Film, Schedule],
           synchronize: false, //true только для dev
         };
