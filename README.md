@@ -2,11 +2,11 @@
 
 ## Установка
 
-### MongoDB
+### PostgreSQL
 
-Установите MongoDB скачав дистрибутив с официального сайта или с помощью пакетного менеджера вашей ОС. Также можно воспользоваться Docker (см. ветку `feat/docker`.
+Установите PostgreSQL скачав дистрибутив с официального сайта или с помощью пакетного менеджера вашей ОС. Также можно воспользоваться Docker (см. ветку `feat/docker`.
 
-Выполните скрипт `test/mongodb_initial_stub.js` в консоли `mongo`.
+Выполните скрипт `test/prac.init.sql`, `test/prac.films.sql`, `test/prac.schedules.sql` в консоли `posgresql`.
 
 ### Бэкенд
 
@@ -21,9 +21,11 @@
 Создайте `.env` файл из примера `.env.example`, в нём укажите:
 
 * `DATABASE_DRIVER` - тип драйвера СУБД - в нашем случае это `mongodb` 
-* `DATABASE_URL` - адрес СУБД MongoDB, например `mongodb://127.0.0.1:27017/practicum`.  
+* `DATABASE_URL` - адрес СУБД PostgreSQL, например `postgres://localhost:5432/prac`. 
+* `DATABASE_USERNAME` - логин от базы данных. 
+* `DATABASE_PASSWORD` - пароль от базы даннех.  
 
-MongoDB должна быть установлена и запущена.
+PostgreSQL должна быть установлена и запущена.
 
 Запустите бэкенд:
 
