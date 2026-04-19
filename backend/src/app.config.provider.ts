@@ -16,13 +16,19 @@ export class configProvider {
   constructor(private configService: ConfigService) {}
 
   get config(): AppConfig {
+    const driver = this.configService.get<string>(
+      'DATABASE_DRIVER',
+      'postgres',
+    );
+    const url = this.configService.get<string>(
+      'DATABASE_URL',
+      'postgres://prac:prac@localhost:5432/prac',
+    );
+
     return {
       database: {
-        driver: this.configService.get<string>('DATABASE_DRIVER', 'mongodb'),
-        url: this.configService.get<string>(
-          'DATABASE_URL',
-          'mongodb://localhost:27017/afisha',
-        ),
+        driver,
+        url: url,
       },
       port: this.configService.get<number>('PORT', 3000),
     };
