@@ -1,0 +1,76 @@
+version: "1.0"
+services:
+  backend:
+    build:
+      context: ./backend
+    image: ghcr.io/v1ktr/film-backend:latest
+    container_name: film-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - database
+    networks:
+      - film-network
+
+  frontend:
+    build:
+      context: ./frontend
+    #command: npm run build
+    volumes:
+      - ./frontend/dist:/app/dist
+
+  nginx:
+    build:
+      context: ./nginx
+    image: ghcr.io/v1ktr/film-nginx:latest
+    container_name: film-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - film-network
+
+  database:
+    image: postgres:16-alpine
+    container_name: film-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: prac
+      POSTGRES_PASSWORD: prac
+      POSTGRES_DB: prac
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - film-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: film-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - film-network
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  film-network:
+    driver: bridge

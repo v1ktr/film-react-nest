@@ -20,16 +20,15 @@
 
 Создайте `.env` файл из примера `.env.example`, в нём укажите:
 
-* `DATABASE_DRIVER` - тип драйвера СУБД - в нашем случае это `mongodb` 
-* `DATABASE_URL` - адрес СУБД PostgreSQL, например `postgres://localhost:5432/prac`. 
-* `DATABASE_USERNAME` - логин от базы данных. 
-* `DATABASE_PASSWORD` - пароль от базы даннех.  
+* `DATABASE_DRIVER` - тип драйвера СУБД - в нашем случае это `postgres` 
+* `DATABASE_URL` - адрес СУБД PostgreSQL, например `postgres://prac:prac@database:5432/prac`. database - имя контейнера postgres внутри docker network
+* `LOGGER_TYPE` - тип логгирования. Может быть dev, json и tskv.
 
 PostgreSQL должна быть установлена и запущена.
 
 Запустите бэкенд:
 
-`npm start:debug`
+`npm start:debug` или `npm start:dev`
 
 Для проверки отправьте тестовый запрос с помощью Postman или `curl`.
 
