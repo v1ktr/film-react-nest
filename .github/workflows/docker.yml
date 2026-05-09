@@ -52,3 +52,21 @@ jobs:
           context: ./nginx
           push: true
           tags: ghcr.io/v1ktr/film-nginx:latest
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/film-react-nest
+            git pull origin review-3
+            docker compose pull
+            docker compose up -d

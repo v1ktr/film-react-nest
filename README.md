@@ -1,3 +1,5 @@
+https://v1ktr.nomorepartiessite.ru/ - ссылка на задеплоенный проект.
+
 # FILM!
 
 ## Установка
